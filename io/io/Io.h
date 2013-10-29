@@ -10,4 +10,6 @@
 
 @interface Io : SKSpriteNode
 
+- (void)moveTo:(CGPoint)point;
+
 @end

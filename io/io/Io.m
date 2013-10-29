@@ -8,12 +8,22 @@
 
 #import "Io.h"
 
+@interface Io()
+
+@property (strong, nonatomic) NSNumber* speedX;
+@property (strong, nonatomic) NSNumber* speedY;
+
+@end
+
+
 @implementation Io
 
 - (id) init;
 {
     self = [super initWithColor:[SKColor grayColor]
-                           size:CGSizeMake(50,50)];
+                           size:CGSizeMake(15,15)];
+    self.speedX = @50;
+    self.speedY = @50;
     
     [self completeIo];
     return self;
@@ -35,11 +45,11 @@
      */
     
     SKSpriteNode *light1 = [self newLight];
-    light1.position = CGPointMake(-20.0, 6.0);
+    light1.position = CGPointMake(-6.0, 3.0);
     [self addChild:light1];
     
     SKSpriteNode *light2 = [self newLight];
-    light2.position = CGPointMake(20.0, 6.0);
+    light2.position = CGPointMake(6.0, 3.0);
     [self addChild:light2];
     
     /*
@@ -68,11 +78,11 @@
 - (SKSpriteNode *)newLight
 {
     SKSpriteNode *light = [[SKSpriteNode alloc] initWithColor:[SKColor yellowColor]
-                                                         size:CGSizeMake(8,8)];
+                                                         size:CGSizeMake(2,2)];
     
     SKAction *blink = [SKAction sequence:@[
-                                           [SKAction fadeOutWithDuration:0.5],
-                                           [SKAction fadeInWithDuration:0.5]]];
+                                           [SKAction fadeOutWithDuration:1.0],
+                                           [SKAction fadeInWithDuration:1.0]]];
     // it would be could for him to blink some times
     // io a girl or a boy?
     SKAction *blinkForever = [SKAction repeatActionForever:blink];
@@ -88,6 +98,25 @@
     return propulsion;
 }
 
+- (void)moveTo:(CGPoint)destination
+{
+    // calculate direction in which to move based on position
+    // of Io and the target point
+    CGFloat dx = (destination.x - self.position.x);
+    CGFloat dy = (destination.y - self.position.y);
+    
+    CGFloat normdx = dx/sqrt((pow(dx,2) + pow(dy,2)));
+    CGFloat normdy = dy/sqrt((pow(dx,2) + pow(dy,2)));
+    
+    CGVector direction = CGVectorMake(normdx*[self.speedX floatValue], normdy*[self.speedY floatValue]);
+    
+    SKAction *action = [SKAction sequence:@[
+                            [SKAction moveBy:direction duration:1.0] // need to play with this duration in the future
+                        ]];
+    
+    
+    [self runAction:action];
+}
 
 
 @end
