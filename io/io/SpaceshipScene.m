@@ -8,11 +8,15 @@
 
 #import "SpaceshipScene.h"
 #import "Io.h"
+#import "Star.h"
+#include <stdlib.h>
+
 
 @interface SpaceshipScene ()
 
 @property BOOL contentCreated;
 @property (strong, nonatomic) Io* io;
+@property (strong, nonatomic) SKSpriteNode* background;
 @end
 
 @implementation SpaceshipScene
@@ -30,8 +34,10 @@
     self.backgroundColor = [SKColor blackColor];
     self.scaleMode = SKSceneScaleModeAspectFit;
     
-    // Add a space ship
+    // Add background
+    [self addBackground];
     
+    // Add a space ship
     self.io = [[Io alloc] init];
     self.io.position = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMidY(self.frame)-150);
     [self addChild:self.io];
@@ -47,19 +53,33 @@
      */
 }
 
-static inline CGFloat skRandf() {
-    return rand() / (CGFloat) RAND_MAX;
+- (void)addBackground;
+{
+    // this is just going to be used to tie all background elements together
+    self.background = [[SKSpriteNode alloc] initWithColor:[UIColor blackColor] size:CGSizeMake(1000, 1000)];
+    
+    // add starts
+    for (int i = 0; i < 50; i++) {
+        CGPoint randomPosition =
+            CGPointMake(skRand(self.background.size.width),
+                        skRand(self.background.size.height));
+        Star* star = [[Star alloc] initWithPosition:randomPosition];
+        [self.background addChild:star];
+    }
+    
+    [self addChild:self.background];
 }
 
-static inline CGFloat skRand(CGFloat low, CGFloat high) {
-    return skRandf() * (high - low) + low;
+static inline CGFloat skRand(CGFloat maxBound)
+{
+    return arc4random_uniform(maxBound);
 }
 
 - (void)addRock
 {
     CGSize rockSize = CGSizeMake(2,2);
     SKSpriteNode *rock = [[SKSpriteNode alloc] initWithColor:[SKColor brownColor] size:rockSize];
-    rock.position = CGPointMake(skRand(0, self.size.width), self.size.height-50);
+    rock.position = CGPointMake(skRand(self.size.width), self.size.height-50);
     rock.name = @"rock";
     rock.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:rock.size];
     rock.physicsBody.usesPreciseCollisionDetection = YES;
