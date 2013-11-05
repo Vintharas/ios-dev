@@ -8,6 +8,7 @@
 
 #import "SpaceshipScene.h"
 #import "Io.h"
+#import "Background.h"
 #import "Star.h"
 #include <stdlib.h>
 
@@ -15,8 +16,14 @@
 @interface SpaceshipScene ()
 
 @property BOOL contentCreated;
+@property CGPoint viewPoint;
+@property CGPoint previousIoPosition;
+
+
 @property (strong, nonatomic) Io* io;
-@property (strong, nonatomic) SKSpriteNode* background;
+@property (strong, nonatomic) Background* background;
+
+
 @end
 
 @implementation SpaceshipScene
@@ -38,9 +45,13 @@
     [self addBackground];
     
     // Add a space ship
-    self.io = [[Io alloc] init];
-    self.io.position = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMidY(self.frame)-150);
-    [self addChild:self.io];
+    [self addIo];
+    
+    // Update view point to ios position
+    // Since the coordinate system is in the bottom left by default
+    // we can define the starting view point as Io's position
+    self.viewPoint = self.io.realPosition;
+    self.background.viewPointOffset = self.viewPoint;
     
     // Add some rocks
     SKAction *makeRocks = [SKAction sequence: @[
@@ -56,7 +67,8 @@
 - (void)addBackground;
 {
     // this is just going to be used to tie all background elements together
-    self.background = [[SKSpriteNode alloc] initWithColor:[UIColor blackColor] size:CGSizeMake(1000, 1000)];
+    self.background = [[Background alloc] initWithColor:[UIColor blackColor] size:CGSizeMake(1000, 2000)];
+
     
     // add starts
     for (int i = 0; i < 50; i++) {
@@ -68,6 +80,14 @@
     }
     
     [self addChild:self.background];
+}
+
+- (void) addIo;
+{
+    self.io = [[Io alloc] init];
+    self.io.position = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMidY(self.frame)-150);
+    self.io.realPosition = self.io.position;
+    [self addChild:self.io];
 }
 
 static inline CGFloat skRand(CGFloat maxBound)
@@ -107,6 +127,42 @@ static inline CGFloat skRand(CGFloat maxBound)
         
         [self.io moveTo:touchLocation];
     }
+}
+
+-(void) update:(NSTimeInterval)currentTime
+{
+    
+    self.viewPoint = self.io.realPosition;
+    // self.previousIoPosition = CGPointMake(self.io.position.x, self.io.position.y);
+    // self.viewPoint = CGPointMake(self.viewPoint.x + dx, self.viewPoint.y + dy);
+    
+    NSLog(@"x %.2f", self.viewPoint.x);
+    NSLog(@"y %.2f", self.viewPoint.y);
+
+    
+    // update background position based on Io's movement
+    if (self.viewPoint.x > self.frame.size.width/2 &&
+        self.viewPoint.x < self.background.size.width - self.frame.size.width/2)
+    {
+        // update x on background
+        [self.background setViewPointX:self.viewPoint.x];
+    } else if (self.viewPoint.x <= self.frame.size.width/2) {
+        self.io.position = CGPointMake(self.io.realPosition.x, self.io.position.y);
+    } else {
+        self.io.position = CGPointMake(self.io.realPosition.x - self.background.size.width + self.frame.size.height/2, self.io.position.y);
+    }
+
+    if (self.viewPoint.y > self.frame.size.height/2 &&
+        self.viewPoint.y < self.background.size.height - self.frame.size.height/2)
+    {
+        // update x on background
+        [self.background setViewPointY:self.viewPoint.y];
+    } else if (self.viewPoint.y <= self.frame.size.height/2){
+        self.io.position = CGPointMake(self.io.position.x, self.io.realPosition.y);
+    } else {
+        self.io.position = CGPointMake(self.io.position.x, self.io.realPosition.y - self.background.size.height + self.frame.size.height/2);
+    }
+    
 }
 
 

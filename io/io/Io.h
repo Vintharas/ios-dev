@@ -10,6 +10,8 @@
 
 @interface Io : SKSpriteNode
 
+@property CGPoint realPosition;
+
 - (void)moveTo:(CGPoint)point;
 
 @end

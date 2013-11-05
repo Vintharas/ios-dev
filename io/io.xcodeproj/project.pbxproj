@@ -18,7 +18,6 @@
 		A987F5E0180DCD97000587D5 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A987F5DE180DCD97000587D5 /* Main_iPhone.storyboard */; };
 		A987F5E3180DCD97000587D5 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A987F5E1180DCD97000587D5 /* Main_iPad.storyboard */; };
 		A987F5E6180DCD97000587D5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A987F5E5180DCD97000587D5 /* ViewController.m */; };
-		A987F5E9180DCD97000587D5 /* MyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = A987F5E8180DCD97000587D5 /* MyScene.m */; };
 		A987F5ED180DCD97000587D5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A987F5EC180DCD97000587D5 /* Images.xcassets */; };
 		A987F5F4180DCD97000587D5 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A987F5F3180DCD97000587D5 /* XCTest.framework */; };
 		A987F5F5180DCD97000587D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A987F5CA180DCD97000587D5 /* Foundation.framework */; };
@@ -29,6 +28,7 @@
 		A987F61418103F84000587D5 /* propulsion.sks in Resources */ = {isa = PBXBuildFile; fileRef = A987F61218103F84000587D5 /* propulsion.sks */; };
 		A987F61518103F84000587D5 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = A987F61318103F84000587D5 /* spark.png */; };
 		A991BD761822F89A00CDAF18 /* Star.m in Sources */ = {isa = PBXBuildFile; fileRef = A991BD751822F89A00CDAF18 /* Star.m */; };
+		A9CE6BE41826C9BD00B8ADD4 /* Background.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CE6BE31826C9BD00B8ADD4 /* Background.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,8 +59,6 @@
 		A987F5E2180DCD97000587D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		A987F5E4180DCD97000587D5 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		A987F5E5180DCD97000587D5 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		A987F5E7180DCD97000587D5 /* MyScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyScene.h; sourceTree = "<group>"; };
-		A987F5E8180DCD97000587D5 /* MyScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyScene.m; sourceTree = "<group>"; };
 		A987F5EC180DCD97000587D5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A987F5F2180DCD97000587D5 /* ioTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ioTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A987F5F3180DCD97000587D5 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -73,6 +71,8 @@
 		A987F61318103F84000587D5 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
 		A991BD741822F89A00CDAF18 /* Star.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Star.h; sourceTree = "<group>"; };
 		A991BD751822F89A00CDAF18 /* Star.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Star.m; sourceTree = "<group>"; };
+		A9CE6BE21826C9BD00B8ADD4 /* Background.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Background.h; sourceTree = "<group>"; };
+		A9CE6BE31826C9BD00B8ADD4 /* Background.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Background.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,8 +183,6 @@
 			children = (
 				A911574A181D76DB002FD9CE /* SpaceshipScene.h */,
 				A911574B181D76DB002FD9CE /* SpaceshipScene.m */,
-				A987F5E7180DCD97000587D5 /* MyScene.h */,
-				A987F5E8180DCD97000587D5 /* MyScene.m */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -213,6 +211,8 @@
 			children = (
 				A991BD741822F89A00CDAF18 /* Star.h */,
 				A991BD751822F89A00CDAF18 /* Star.m */,
+				A9CE6BE21826C9BD00B8ADD4 /* Background.h */,
+				A9CE6BE31826C9BD00B8ADD4 /* Background.m */,
 			);
 			name = Background;
 			sourceTree = "<group>";
@@ -319,8 +319,8 @@
 			files = (
 				A987F611180DD0D4000587D5 /* Io.m in Sources */,
 				A991BD761822F89A00CDAF18 /* Star.m in Sources */,
-				A987F5E9180DCD97000587D5 /* MyScene.m in Sources */,
 				A911574C181D76DB002FD9CE /* SpaceshipScene.m in Sources */,
+				A9CE6BE41826C9BD00B8ADD4 /* Background.m in Sources */,
 				A987F5E6180DCD97000587D5 /* ViewController.m in Sources */,
 				A987F5DD180DCD97000587D5 /* AppDelegate.m in Sources */,
 				A987F5D9180DCD97000587D5 /* main.m in Sources */,

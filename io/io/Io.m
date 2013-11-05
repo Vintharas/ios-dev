@@ -22,8 +22,8 @@
 {
     self = [super initWithColor:[SKColor grayColor]
                            size:CGSizeMake(15,15)];
-    self.speedX = @50;
-    self.speedY = @50;
+    self.speedX = @10;
+    self.speedY = @10;
     
     [self completeIo];
     return self;
@@ -32,13 +32,6 @@
 
 - (void)completeIo
 {
-    
-//    SKAction *hover = [SKAction sequence:@[
-//                                           [SKAction waitForDuration:1.0],
-//                                           [SKAction moveByX:100 y:50.0 duration:1.0],
-//                                           [SKAction waitForDuration:1.0],
-//                                           [SKAction moveByX:-100.0 y:-50 duration:1.0]]];
-//    [self runAction: [SKAction repeatActionForever:hover]];
     
     /*
      This method creates the spaceship’s hull and adds to it a short animation. Note that a new kind of action was introduced. A repeating action continuously repeats the action passed to it. In this case, the sequence repeats indefinitely.
@@ -110,13 +103,16 @@
     
     CGVector direction = CGVectorMake(normdx*[self.speedX floatValue], normdy*[self.speedY floatValue]);
     
-    SKAction *action = [SKAction sequence:@[
-                            [SKAction moveBy:direction duration:1.0] // need to play with this duration in the future
-                        ]];
+    self.realPosition = CGPointMake(self.realPosition.x + direction.dx, self.realPosition.y + direction.dy);
     
-    
-    [self runAction:action];
+//    SKAction *action = [SKAction sequence:@[
+//                            [SKAction moveBy:direction duration:1.0] // need to play with this duration in the future
+//                        ]];
+//    
+//    
+//    [self runAction:action];
 }
+
 
 
 @end
