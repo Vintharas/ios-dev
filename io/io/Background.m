@@ -11,8 +11,6 @@
 @implementation Background
 
 
-
-
 - (void) setViewPointX:(CGFloat)x
 {
     self.position = CGPointMake(self.viewPointOffset.x - x, self.position.y);

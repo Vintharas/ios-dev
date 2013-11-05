@@ -12,6 +12,7 @@
 
 @property (strong, nonatomic) NSNumber* speedX;
 @property (strong, nonatomic) NSNumber* speedY;
+@property (strong, nonatomic) SKEmitterNode* propulsion;
 
 @end
 
@@ -22,8 +23,8 @@
 {
     self = [super initWithColor:[SKColor grayColor]
                            size:CGSizeMake(15,15)];
-    self.speedX = @10;
-    self.speedY = @10;
+    self.speedX = @50;
+    self.speedY = @50;
     
     [self completeIo];
     return self;
@@ -61,11 +62,11 @@
      
      If you let the app run for a while, the frame rate starts to drop, even though the node count remains very low. This is because the node code only shows the visible nodes in the scene. However, when rocks fall through the bottom of the scene, they continue to exist in the scene, which means that physics is still being simulated on them. Eventually there are so many nodes being processed that Sprite Kit slows down.
      */
-    SKEmitterNode* propulsion = [self newPropulsionEmitter];
+    self.propulsion = [self newPropulsionEmitter];
     SKAction* flip = [SKAction rotateByAngle:M_PI duration:0];
-    [propulsion runAction:flip];
-    propulsion.position = CGPointMake(0.0, -25.0);
-    [self addChild:propulsion];
+    [self.propulsion runAction:flip];
+    self.propulsion.position = CGPointMake(0.0, -25.0);
+    [self addChild:self.propulsion];
 }
 
 - (SKSpriteNode *)newLight
@@ -103,14 +104,19 @@
     
     CGVector direction = CGVectorMake(normdx*[self.speedX floatValue], normdy*[self.speedY floatValue]);
     
-    self.realPosition = CGPointMake(self.realPosition.x + direction.dx, self.realPosition.y + direction.dy);
+    SKAction *moveIo = [SKAction sequence:@[
+                            [SKAction moveBy:direction duration:1.0] // need to play with this duration in the future
+                        ]];
+    [self runAction:moveIo];
     
-//    SKAction *action = [SKAction sequence:@[
-//                            [SKAction moveBy:direction duration:1.0] // need to play with this duration in the future
-//                        ]];
-//    
-//    
-//    [self runAction:action];
+    CGFloat angle = atan2f(normdy, normdx) + M_PI_2;
+    SKAction *rotatePropulsion = [SKAction group:@[
+                                                      [SKAction rotateToAngle:angle duration:0.5],
+                                                      [SKAction moveToX:-25.0*normdx duration:0.5],
+                                                      [SKAction moveToY:-25.0*normdy duration:0.5]
+                                                      ]];
+    
+    [self.propulsion runAction:rotatePropulsion];
 }
 
 

@@ -10,7 +10,7 @@
 #import "Io.h"
 #import "Background.h"
 #import "Star.h"
-#include <stdlib.h>
+#import "MathHelpers.h"
 
 
 @interface SpaceshipScene ()
@@ -47,21 +47,12 @@
     // Add a space ship
     [self addIo];
     
-    // Update view point to ios position
-    // Since the coordinate system is in the bottom left by default
-    // we can define the starting view point as Io's position
-    self.viewPoint = self.io.realPosition;
-    self.background.viewPointOffset = self.viewPoint;
+    // Update current view point to Io position
+    self.viewPoint = self.io.position;
+    self.background.viewPointOffset = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
     
     // Add some rocks
-    SKAction *makeRocks = [SKAction sequence: @[
-                                                [SKAction performSelector:@selector(addRock) onTarget:self],
-                                                [SKAction waitForDuration:0.10 withRange:0.15]
-                                                ]];
-    [self runAction: [SKAction repeatActionForever:makeRocks]];
-    /*
-     The scene is also a node, so it can run actions too. In this case, a custom action calls a method on the scene to create a rock. The sequence creates a rock, then waits for a random period of time. By repeating this action, the scene continuously spawns new rocks.
-     */
+    [self addRocks];
 }
 
 - (void)addBackground;
@@ -70,11 +61,11 @@
     self.background = [[Background alloc] initWithColor:[UIColor blackColor] size:CGSizeMake(1000, 2000)];
 
     
-    // add starts
+    // add stars
     for (int i = 0; i < 50; i++) {
         CGPoint randomPosition =
-            CGPointMake(skRand(self.background.size.width),
-                        skRand(self.background.size.height));
+            CGPointMake([MathHelpers randomFloatWithMaxValueOf:(self.background.size.width)],
+                        [MathHelpers randomFloatWithMaxValueOf:(self.background.size.height)]);
         Star* star = [[Star alloc] initWithPosition:randomPosition];
         [self.background addChild:star];
     }
@@ -86,30 +77,44 @@
 {
     self.io = [[Io alloc] init];
     self.io.position = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMidY(self.frame)-150);
-    self.io.realPosition = self.io.position;
-    [self addChild:self.io];
+    [self.background addChild:self.io];
 }
 
-static inline CGFloat skRand(CGFloat maxBound)
+- (void)addRocks
 {
-    return arc4random_uniform(maxBound);
+    SKAction *makeRocks = [SKAction sequence: @[
+                                                [SKAction performSelector:@selector(addRock) onTarget:self],
+                                                [SKAction waitForDuration:0.50 withRange:1.00]
+                                                ]];
+    [self runAction: [SKAction repeatActionForever:makeRocks]];
 }
 
 - (void)addRock
 {
     CGSize rockSize = CGSizeMake(2,2);
     SKSpriteNode *rock = [[SKSpriteNode alloc] initWithColor:[SKColor brownColor] size:rockSize];
-    rock.position = CGPointMake(skRand(self.size.width), self.size.height-50);
     rock.name = @"rock";
+    
     rock.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:rock.size];
+    rock.physicsBody.dynamic = NO;
     rock.physicsBody.usesPreciseCollisionDetection = YES;
-    [self addChild:rock];
+    
+    rock.position = CGPointMake([MathHelpers randomFloatWithMaxValueOf:self.background.size.width],
+                                [MathHelpers randomFloatWithMaxValueOf:self.background.size.height]);
+    CGVector randomDirection = CGVectorMake([MathHelpers randomFloatBetween:50 and:100],
+                                            [MathHelpers randomFloatBetween:50 and:100]);
+    SKAction* moveInSpaceForEver = [SKAction repeatActionForever:[SKAction moveBy:randomDirection duration:1.0]];
+    [rock runAction:moveInSpaceForEver];
+    
+    [self.background addChild:rock];
 }
 
 -(void)didSimulatePhysics // This gets executed after running physics
 {
     [self enumerateChildNodesWithName:@"rock" usingBlock:^(SKNode *node, BOOL *stop) {
-        if (node.position.y < 0)
+        if (node.position.y < 0 || node.position.y > self.background.size.height)
+            [node removeFromParent];
+        if (node.position.x < 0 || node.position.x > self.background.size.width)
             [node removeFromParent];
     }];
 }
@@ -124,15 +129,15 @@ static inline CGFloat skRand(CGFloat maxBound)
     
     for (UITouch *touch in touches) {
         CGPoint touchLocation = [touch locationInNode:self];
-        
-        [self.io moveTo:touchLocation];
+        CGPoint touchLocationInBackground = [self.background convertPoint:touchLocation fromNode:self];
+        [self.io moveTo:touchLocationInBackground];
     }
 }
 
 -(void) update:(NSTimeInterval)currentTime
 {
     
-    self.viewPoint = self.io.realPosition;
+    self.viewPoint = self.io.position;
     // self.previousIoPosition = CGPointMake(self.io.position.x, self.io.position.y);
     // self.viewPoint = CGPointMake(self.viewPoint.x + dx, self.viewPoint.y + dy);
     
@@ -147,9 +152,9 @@ static inline CGFloat skRand(CGFloat maxBound)
         // update x on background
         [self.background setViewPointX:self.viewPoint.x];
     } else if (self.viewPoint.x <= self.frame.size.width/2) {
-        self.io.position = CGPointMake(self.io.realPosition.x, self.io.position.y);
+        //self.io.position = CGPointMake(self.io.realPosition.x, self.io.position.y);
     } else {
-        self.io.position = CGPointMake(self.io.realPosition.x - self.background.size.width + self.frame.size.height/2, self.io.position.y);
+        //self.io.position = CGPointMake(self.io.realPosition.x - self.background.size.width + self.frame.size.height/2, self.io.position.y);
     }
 
     if (self.viewPoint.y > self.frame.size.height/2 &&
@@ -158,9 +163,9 @@ static inline CGFloat skRand(CGFloat maxBound)
         // update x on background
         [self.background setViewPointY:self.viewPoint.y];
     } else if (self.viewPoint.y <= self.frame.size.height/2){
-        self.io.position = CGPointMake(self.io.position.x, self.io.realPosition.y);
+        //self.io.position = CGPointMake(self.io.position.x, self.io.realPosition.y);
     } else {
-        self.io.position = CGPointMake(self.io.position.x, self.io.realPosition.y - self.background.size.height + self.frame.size.height/2);
+        //self.io.position = CGPointMake(self.io.position.x, self.io.realPosition.y - self.background.size.height + self.frame.size.height/2);
     }
     
 }

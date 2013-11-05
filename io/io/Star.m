@@ -7,6 +7,7 @@
 //
 
 #import "Star.h"
+#import "MathHelpers.h"
 
 @interface Star()
 
@@ -20,7 +21,7 @@
 {
     CGSize starSize = CGSizeMake(5, 5);
     float randomDuration = arc4random_uniform(15);
-    float randomAlpha = [self randomFloatBetween:0.4 and:1.0];
+    float randomAlpha = [MathHelpers randomFloatBetween:0.4 and:1.0];
     SKColor *color = [SKColor colorWithRed:1 green:1 blue:1 alpha:randomAlpha];
     self = [super initWithColor:color size:starSize];
 
@@ -31,16 +32,6 @@
     self.position = position;
     [self runAction:blinkForever];
     return self;
-}
-
-
-- (float)randomFloatBetween:(float)smallNumber and:(float)bigNumber {
-    float diff = bigNumber - smallNumber;
-    return (((float) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX) * diff) + smallNumber;
-}
-
-- (float)randomFloatWithMaxValueOf:(float)number {
-    return (((float) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX) * number);
 }
 
 @end
