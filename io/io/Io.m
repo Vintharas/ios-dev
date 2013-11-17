@@ -14,6 +14,9 @@
 @property (strong, nonatomic) NSNumber* speedY;
 @property (strong, nonatomic) SKEmitterNode* propulsion;
 
+
+
+
 @end
 
 
@@ -25,6 +28,7 @@
                            size:CGSizeMake(15,15)];
     self.speedX = @50;
     self.speedY = @50;
+    self.name = @"io";
     
     [self completeIo];
     return self;
@@ -51,7 +55,7 @@
      */
     
     self.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:self.size];
-    self.physicsBody.dynamic = NO;
+    self.physicsBody.mass = 1;
     
     /*
      When you run it now, the spaceship is no longer affected by gravity, so it runs as it did before. Later, making the physics body static also means that the spaceship’s velocity is unaffected by collisions.
@@ -119,6 +123,25 @@
     [self.propulsion runAction:rotatePropulsion];
 }
 
-
+- (void)takeDamage:(Damage *)damage
+{
+    // take damage and animate
+    // 1. reduce hp
+    
+    // 2. animation
+    if ([damage.type isEqualToString:@"collision"]){
+        SKAction *damageByCollision = [SKAction sequence:@[
+                                       [SKAction colorizeWithColor:[SKColor redColor] colorBlendFactor:0.1 duration:0.5],
+                                       [SKAction colorizeWithColor:[SKColor grayColor] colorBlendFactor:0.1 duration:0.5]
+                                       ]];
+        SKAction *tremble = [SKAction sequence:@[
+                                                 [SKAction moveByX:4 y:0 duration:0.1],
+                                                 [SKAction moveByX:-8 y:0 duration:0.2],
+                                                 [SKAction moveByX:4 y:0 duration:0.1]]];
+        SKAction *repeatTremble = [SKAction repeatAction:tremble count:2];
+        SKAction *repeatDamageByCollision = [SKAction repeatAction:damageByCollision count:4];
+        [self runAction:[SKAction group:@[repeatTremble, repeatDamageByCollision]]];
+    }
+}
 
 @end

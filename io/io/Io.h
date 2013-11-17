@@ -7,9 +7,11 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "Damage.h"
 
 @interface Io : SKSpriteNode
 
 - (void)moveTo:(CGPoint)point;
+- (void)takeDamage:(Damage*)damage;
 
 @end

@@ -8,6 +8,9 @@
 
 #import <SpriteKit/SpriteKit.h>
 
-@interface SpaceshipScene : SKScene
+static const uint32_t rockCategory     =  0x1 << 0;
+static const uint32_t shipCategory        =  0x1 << 1;
+
+@interface SpaceshipScene : SKScene <SKPhysicsContactDelegate>
 
 @end

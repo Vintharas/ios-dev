@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		A911574C181D76DB002FD9CE /* SpaceshipScene.m in Sources */ = {isa = PBXBuildFile; fileRef = A911574B181D76DB002FD9CE /* SpaceshipScene.m */; };
 		A92D2B3218299103006AC062 /* MathHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = A92D2B3118299103006AC062 /* MathHelpers.m */; };
+		A92D2B34182BF1A7006AC062 /* MyParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = A92D2B33182BF1A7006AC062 /* MyParticle.sks */; };
 		A987F5CB180DCD97000587D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A987F5CA180DCD97000587D5 /* Foundation.framework */; };
 		A987F5CD180DCD97000587D5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A987F5CC180DCD97000587D5 /* CoreGraphics.framework */; };
 		A987F5CF180DCD97000587D5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A987F5CE180DCD97000587D5 /* UIKit.framework */; };
@@ -28,6 +29,7 @@
 		A987F611180DD0D4000587D5 /* Io.m in Sources */ = {isa = PBXBuildFile; fileRef = A987F60F180DCEC1000587D5 /* Io.m */; };
 		A987F61418103F84000587D5 /* propulsion.sks in Resources */ = {isa = PBXBuildFile; fileRef = A987F61218103F84000587D5 /* propulsion.sks */; };
 		A987F61518103F84000587D5 /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = A987F61318103F84000587D5 /* spark.png */; };
+		A98A5AF818394B0A00C46E16 /* Damage.m in Sources */ = {isa = PBXBuildFile; fileRef = A98A5AF718394B0A00C46E16 /* Damage.m */; };
 		A991BD761822F89A00CDAF18 /* Star.m in Sources */ = {isa = PBXBuildFile; fileRef = A991BD751822F89A00CDAF18 /* Star.m */; };
 		A9CE6BE41826C9BD00B8ADD4 /* Background.m in Sources */ = {isa = PBXBuildFile; fileRef = A9CE6BE31826C9BD00B8ADD4 /* Background.m */; };
 /* End PBXBuildFile section */
@@ -47,6 +49,7 @@
 		A911574B181D76DB002FD9CE /* SpaceshipScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpaceshipScene.m; sourceTree = "<group>"; };
 		A92D2B3018299103006AC062 /* MathHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MathHelpers.h; sourceTree = "<group>"; };
 		A92D2B3118299103006AC062 /* MathHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MathHelpers.m; sourceTree = "<group>"; };
+		A92D2B33182BF1A7006AC062 /* MyParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle.sks; sourceTree = "<group>"; };
 		A987F5C7180DCD97000587D5 /* io.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = io.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A987F5CA180DCD97000587D5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A987F5CC180DCD97000587D5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -72,6 +75,8 @@
 		A987F60F180DCEC1000587D5 /* Io.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Io.m; sourceTree = "<group>"; };
 		A987F61218103F84000587D5 /* propulsion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = propulsion.sks; sourceTree = "<group>"; };
 		A987F61318103F84000587D5 /* spark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spark.png; sourceTree = "<group>"; };
+		A98A5AF618394B0A00C46E16 /* Damage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Damage.h; sourceTree = "<group>"; };
+		A98A5AF718394B0A00C46E16 /* Damage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Damage.m; sourceTree = "<group>"; };
 		A991BD741822F89A00CDAF18 /* Star.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Star.h; sourceTree = "<group>"; };
 		A991BD751822F89A00CDAF18 /* Star.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Star.m; sourceTree = "<group>"; };
 		A9CE6BE21826C9BD00B8ADD4 /* Background.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Background.h; sourceTree = "<group>"; };
@@ -108,6 +113,8 @@
 			children = (
 				A92D2B3018299103006AC062 /* MathHelpers.h */,
 				A92D2B3118299103006AC062 /* MathHelpers.m */,
+				A98A5AF618394B0A00C46E16 /* Damage.h */,
+				A98A5AF718394B0A00C46E16 /* Damage.m */,
 			);
 			name = Engine;
 			sourceTree = "<group>";
@@ -215,6 +222,7 @@
 			children = (
 				A987F61218103F84000587D5 /* propulsion.sks */,
 				A987F61318103F84000587D5 /* spark.png */,
+				A92D2B33182BF1A7006AC062 /* MyParticle.sks */,
 			);
 			name = Particles;
 			sourceTree = "<group>";
@@ -310,6 +318,7 @@
 				A987F61518103F84000587D5 /* spark.png in Resources */,
 				A987F5E3180DCD97000587D5 /* Main_iPad.storyboard in Resources */,
 				A987F61418103F84000587D5 /* propulsion.sks in Resources */,
+				A92D2B34182BF1A7006AC062 /* MyParticle.sks in Resources */,
 				A987F5E0180DCD97000587D5 /* Main_iPhone.storyboard in Resources */,
 				A987F5D7180DCD97000587D5 /* InfoPlist.strings in Resources */,
 			);
@@ -331,6 +340,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A987F611180DD0D4000587D5 /* Io.m in Sources */,
+				A98A5AF818394B0A00C46E16 /* Damage.m in Sources */,
 				A991BD761822F89A00CDAF18 /* Star.m in Sources */,
 				A911574C181D76DB002FD9CE /* SpaceshipScene.m in Sources */,
 				A9CE6BE41826C9BD00B8ADD4 /* Background.m in Sources */,
